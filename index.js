@@ -38,9 +38,21 @@ app.use(
     }),
 )
 
+app.use(flash())
+
+app.use(express.static('public'))
+
+app.use((req,res, next) =>{
+    if(req.session.userid){
+        res.locals.session = req.session
+    }
+
+    next()
+})
+
 conn
     .sync()
     .then(() =>{
-        app.listen(3000)
+        app.listen(3001)
     })
     .catch((erro) => console.log(erro))
