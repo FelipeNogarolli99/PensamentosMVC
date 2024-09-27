@@ -9,6 +9,11 @@ const app = express()
 
 const conn = require('./db/conn')
 
+//models
+const Pensamentos = require('./models/Pensamento')
+const User = require('./models/User')
+const { FORCE } = require('sequelize/lib/index-hints')
+
 app.engine('handlebars', engine())
 app.set('view engine' , 'handlebars')
 
@@ -51,6 +56,7 @@ app.use((req,res, next) =>{
 })
 
 conn
+    // .sync( {force: true})
     .sync()
     .then(() =>{
         app.listen(3001)
