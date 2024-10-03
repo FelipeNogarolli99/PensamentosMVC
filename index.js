@@ -12,7 +12,12 @@ const conn = require('./db/conn')
 //models
 const Pensamentos = require('./models/Pensamento')
 const User = require('./models/User')
-const { FORCE } = require('sequelize/lib/index-hints')
+
+const pensamentosRoutes = require("./routes/pensamentosRoutes")
+const authRoutes = require("./routes/authRoutes")
+
+const PensamentosRota = require('./routes/pensamentosRoutes')
+const PensamentosController = require('./controllers/PensamentosController')
 
 app.engine('handlebars', engine())
 app.set('view engine' , 'handlebars')
@@ -54,6 +59,13 @@ app.use((req,res, next) =>{
 
     next()
 })
+
+
+// Routes
+app.use("/pensamentos" , PensamentosRota)
+app.use("/" , authRoutes)
+
+app.get('/', PensamentosController.showPensamentos)
 
 conn
     // .sync( {force: true})
