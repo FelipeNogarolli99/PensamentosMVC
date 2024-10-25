@@ -135,3 +135,28 @@ form input[type="submit"]:hover,
   margin: 0 auto 2em;
   max-width: 60%;
 }
+
+/* pensamento */
+
+.pensamentos-form-container a{
+  color: #f6982d;
+}
+
+.pensamentos-form-container a:hover{
+  color: #fff;
+}
+
+.pensamentos-form-container h1{
+  margin-bottom: 1em;
+  margin-top: 1em;
+  color: #fff;
+  border-left: 4px solid #f6982d;
+  padding: 0.3em;
+
+}
+
+.pensamentos-form-container form{
+  max-width: 30%;
+  margin-top: 1.5em ;
+  
+}

@@ -6,4 +6,13 @@ module.exports = class PensamentosController{
         res.render('pensamentos/home')
         
     }
+
+    static async dashboard(req, res){
+        res.render('pensamentos/dashboard')
+    }
+
+    static createTought(req, res){
+        res.render('pensamentos/create')
+    }
 }
+
