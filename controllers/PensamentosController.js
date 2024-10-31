@@ -1,10 +1,46 @@
-const { where } = require('sequelize')
+const { where, or } = require('sequelize')
 const Pensamentos = require('../models/Pensamento')
 const User = require('../models/User')
 
+const {Op} = require("sequelize")
+
 module.exports = class PensamentosController{
     static async showPensamentos(req, res){
-        res.render('pensamentos/home')
+
+        let search = ""
+
+        if(req.query.search){
+            search= req.query.search
+
+        }
+
+        let order = 'DESC'
+
+        if (req.query.order === 'old') {
+        order = 'ASC'
+        } else {
+        order = 'DESC'
+        }
+
+
+        const toughtsData = await Pensamentos.findAll({
+            include: User,
+            where:{
+                title: {[Op.like]: `%${search}%`},
+            },
+
+            order:[["createdAt" , order]]
+        })
+        
+        const toughts = toughtsData.map((result) => result.get({plain: true}))
+
+        let pensmanetosQTI = toughts.length
+
+        if(pensmanetosQTI === 0){
+            pensmanetosQTI =false
+        }
+
+        res.render("pensamentos/home" , {toughts, search, pensmanetosQTI})
         
     }
 
