@@ -1,3 +1,4 @@
+const { where } = require('sequelize')
 const Pensamentos = require('../models/Pensamento')
 const User = require('../models/User')
 
@@ -26,9 +27,6 @@ module.exports = class PensamentosController{
           emptyToughts = false
         }
     
-        console.log(toughts)
-        console.log(emptyToughts)
-    
         res.render('pensamentos/dashboard', { toughts, emptyToughts })
       }
 
@@ -50,6 +48,62 @@ module.exports = class PensamentosController{
             })
           })
           .catch((err) => console.log())
+      }
+
+    //   static async removeTought(req, res){
+    //     const id= req.body.id
+    //     const UserId = req.session.userid
+
+    //    try {
+    //     await Pensamentos.destroy({where: {id:id, UserId: UserId}})
+
+    //         req.session.save(() => {
+    //           res.redirect('/pensamentos/dashboard')
+    //         })
+    //    } catch (error) {
+    //     console.log('Aconteeu um erro ' + error)
+        
+    //    }
+
+    //   }
+
+      static async removeTought(req, res) {
+        const id = req.body.id
+        const UserId = req.session.userid
+    
+        await Pensamentos.destroy({ where: { id: id , userId:UserId} })
+          .then(() => {
+            req.flash('message', 'Pensamento removido com sucesso!')
+            req.session.save(() => {
+              res.redirect('/pensamentos/dashboard')
+            })
+          })
+          .catch((err) => console.log())
+      }
+
+      static async updateTought(req, res){
+        const id = req.params.id
+
+        const pensamento = await Pensamentos.findOne({where: {id:id}, raw: true})
+        res.render("pensamentos/edit" , {pensamento})
+      }
+
+      static async updateToughtSave( req, res ){
+
+        const id = req.body.id
+
+        const pensamento = {
+            title: req.body.title
+
+        }
+
+        await Pensamentos.update(pensamento, { where: {id:id }})
+        req.flash('message', 'Pensamento atualizado com sucesso!')
+
+            req.session.save(() => {
+              res.redirect('/pensamentos/dashboard')
+            })
+        
       }
     
 }
