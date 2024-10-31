@@ -8,6 +8,7 @@ const checkAuth = require("../helpers/auth").checkAuth
 
 router.get('/dashboard' , checkAuth, PensamentosController.dashboard)
 router.get('/add' , checkAuth, PensamentosController.createTought)
+router.post('/add' , checkAuth, PensamentosController.createToughtSave)
 router.get('/' , PensamentosController.showPensamentos)
 
 module.exports = router
